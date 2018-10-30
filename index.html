@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>random</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div class="left" style="height:100%;width:80%;position:fixed;top:0;left:0;text-align:center;border-right:1px solid #666">
+  <h1 style="text-align:center;margin:40px;margin-bottom:120px;">スロット</h1>
+  <div>
+    <div class="roulette-box" style="text-align:center;display:inline-block;margin:20px">
+      <div class="roulette roulette-01" style="display:none;"> 
+        <img src="img/shachoo.jpg"/>
+        <img src="img/kinniku.jpg"/>
+        <img src="img/owner.jpg"/>
+        <img src="img/another-god.jpg"/>
+        <img src="img/jaken.jpg"/>
+        <img src="img/naochin.jpg"/>
+        <img src="img/pantry.jpg"/>
+        <img src="img/tekken.jpg"/>
+        <img src="img/nokonoko.jpg"/>
+        <img src="img/ikemoto.jpg"/>
+      </div>
+    </div>
+    <div class="roulette-box" style="text-align:center;display:inline-block;margin:20px">
+      <div class="roulette roulette-02" style="display:none;"> 
+        <img src="img/mc.jpg"/>
+        <img src="img/amigo.jpg"/>
+        <img src="img/burgess.jpg"/>
+        <img src="img/cell.jpg"/>
+        <img src="img/ikenoue.jpg"/>
+        <img src="img/wild.jpg"/>
+        <img src="img/rara.jpg"/>
+        <img src="img/hideki.jpg"/>
+        <img src="img/hormone.jpg"/>
+        <img src="img/tsukky.jpg"/>
+      </div>
+    </div>
+    <div class="roulette-box" style="text-align:center;display:inline-block;margin:20px">
+      <div class="roulette roulette-03" style="display:none;"> 
+        <img src="img/yamataikoku.jpg"/>
+        <img src="img/bayashi.jpg"/>
+        <img src="img/mameshiba.jpg"/>
+        <img src="img/shampoo.jpg"/>
+        <img src="img/shiro-gyaru.jpg"/>
+        <img src="img/oh-san.jpg"/>
+        <img src="img/murphy.jpg"/>
+        <img src="img/kento.jpg"/>
+        <img src="img/ramen.jpg"/>
+        <img src="img/kuri-chan.jpg"/>
+      </div>
+    </div>
+    <div class="roulette-box" style="text-align:center;display:inline-block;margin:20px">
+      <div class="roulette roulette-04" style="display:none;"> 
+        <img src="img/ayana.jpg"/>
+        <img src="img/saki-chan.jpg"/>
+        <img src="img/shota.jpg"/>
+        <img src="img/obata.jpg"/>
+        <img src="img/ryo-san.jpg"/>
+        <img src="img/shima-jun.jpg"/>
+        <img src="img/matsuyama-san.jpg"/>
+        <img src="img/okamura-san.jpg"/>
+        <img src="img/.jpg"/>
+        <img src="img/.jpg"/>
+      </div>
+    </div>
+    <p><button class="btn btn-large btn-primary start" style="font-size:32px; padding:20px 80px;border:5px solid #000;margin:40px auto;"> START </button></p>
+    <p><button class="stop btn-large btn btn-warning" onclick="GetRandomNumber();" style="font-size:32px; padding:20px 80px;border:5px solid #000;margin:40px auto;display:none;"> STOP </button></p>
+  </div>
+</div>
+<div class="right" style="height:100%;width:20%;position:absolute;top:0;right:0;text-align:center;">
+  <h1 style="text-align:center;margin:40px;">グループ</h1>
+  <div class="groups">
+  </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://apis.google.com/js/api.js"></script>
+<script src="roulette.js"></script>
+<script>
+  //http://creator.aainc.co.jp/archives/6240でkeyとworksheetIdについては確認
+  $.ajax({
+    type: 'GET',
+    url: 'https://spreadsheets.google.com/feeds/cells/1QBlcwS4RETe5w1-_5-Wzn9gcCauPfaeVQscvH1LM77A/ory3ll8/public/values?alt=json',
+    dataType: 'jsonp',
+    cache: false,
+    success: function(data){
+      var sheetsEntry = data.feed.entry;
+      console.log(sheetsEntry);
+      sheetsEntry.forEach(function(value){
+        console.log(value['content'])
+      });
+    },
+    error: function(){
+      console.log('error');
+    }
+  })
+</script>
+<script>
+  var name_01 = ["しゃちょー", "筋肉", "オーナー", "アナザーゴッド", "じゃけん", "なおちん", "パントリー", "鉄拳", "のこのこ", "池本"];
+  var name_02 = ["MC", "アミーゴ", "バージェス", "セル", "池上", "ワイルド", "らら", "ヒデキ", "ホルモン", "ツッキー"];
+  var name_03 = ["邪馬台国", "ばやし", "豆柴", "ヒグネム", "白ギャル", "王さん", "マーフィー", "けんと", "ラーメン", "くりちゃん"];
+  var name_04 = ["あやな", "さきちゃん", "ショータ", "おばた", "廖さん", "しまじゅん", "松山さん", "岡村さん", "", ""];
+
+  function fisherYates(array) {
+
+    for(var i = array.length - 1; i > 0; i--) {
+
+        var r = Math.floor(Math.random() * (i + 1));
+        var tmp = array[i];
+
+        array[i] = array[r];
+        array[r] = tmp;
+    }
+
+    console.log(array);
+    return array;
+  }
+
+  function runSlot(array) {
+
+    var separeted_groups = [];
+
+    while (array.length > 0) {
+      var s1 = array.slice(0, 2);
+      array.splice(0, 2);
+      console.log(s1);
+      separeted_groups.push(s1);
+    }
+
+    console.log(separeted_groups);
+
+    for (i in separeted_groups){
+      //表示
+    }
+  }
+/*
+  fisherYates(name_array);
+  runSlot(name_array);
+*/
+</script>
+
+<script>
+  var num_01 = Array.from(new Array(10)).map((v,i) => i);
+  var num_02 = Array.from(new Array(10)).map((v,i) => i);
+  var num_03 = Array.from(new Array(10)).map((v,i) => i);
+  var num_04 = Array.from(new Array(10)).map((v,i) => i);
+
+  num_01 = fisherYates(num_01);
+  num_02 = fisherYates(num_02);
+  num_03 = fisherYates(num_03);
+  num_04 = fisherYates(num_04);
+
+  
+
+  jQuery(function(){
+    $('div.roulette').roulette({
+      speed : 100,
+    });
+
+    // START!
+    $('.start').click(function(){
+      $('div.groups').append('<div class="group" style="border:2px solid #000;margin:20px;"></div>');
+
+      stopImageNumber = num_01[0];
+      $('div.roulette-01').roulette('start', stopImageNumber);
+      num_01.shift();
+
+      stopImageNumber = num_02[0];
+      $('div.roulette-02').roulette('start', stopImageNumber);
+      num_02.shift();
+
+      stopImageNumber = num_03[0];
+      $('div.roulette-03').roulette('start', stopImageNumber);
+      num_03.shift();
+
+      stopImageNumber = num_04[0];
+      $('div.roulette-04').roulette('start', stopImageNumber);
+      num_04.shift();
+
+      setTimeout(function(){
+        $(".start").remove();
+        $('.stop').css({'display':'flex'});
+      },100);
+
+    });
+
+    // STOP!
+    $('.stop').click(function(){
+      setTimeout(function(){
+        slotNum = 1;
+        $('div.roulette-01').roulette('stop', slotNum);
+      },0);
+
+
+      setTimeout(function(){
+        slotNum = 2;
+        $('div.roulette-02').roulette('stop', slotNum);
+      },500);
+
+      setTimeout(function(){
+        slotNum = 3;
+        $('div.roulette-03').roulette('stop', slotNum);
+      },1000);
+
+
+      setTimeout(function(){
+        slotNum = 4;
+        $('div.roulette-04').roulette('stop', slotNum);
+
+        setTimeout(function(){
+          $('body').append('<div class="model-mask" style="position:fixed;z-index:20;top:0;left:0;height:100vh;width:100vw;background-color:rgba(0,0,0,0.9);"></div>');
+
+          $('img.active-img').clone().css({'height':'auto','width':'25vw','display':'inline-block','margin':'auto 0'}).appendTo('.model-mask');
+
+        },2000);
+
+        setTimeout(function(){
+          $('img.active-img').removeClass("active-img");
+          $('.model-mask').remove();
+
+          $('div.groups').append('<div class="group" style="border:2px solid #000;margin:20px;"></div>');
+
+          stopImageNumber = num_01[0];
+          $('div.roulette-01').roulette('start', stopImageNumber);
+          num_01.shift();
+
+          stopImageNumber = num_02[0];
+          $('div.roulette-02').roulette('start', stopImageNumber);
+          num_02.shift();
+
+          stopImageNumber = num_03[0];
+          $('div.roulette-03').roulette('start', stopImageNumber);
+          num_03.shift();
+
+          stopImageNumber = num_04[0];
+          $('div.roulette-04').roulette('start', stopImageNumber);
+          num_04.shift();
+        },4000);
+      },2000);;
+    });
+  });
+</script>
+</body>
+</html>
